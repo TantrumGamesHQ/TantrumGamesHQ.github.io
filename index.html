@@ -3,225 +3,505 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tantrum Games HQ | Electric Experiences</title>
-    
+    <title>Tantrum Games HQ | Unleash the Tantrum</title>
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
-        /* --- CORE VARIABLES --- */
+        /* ===================================================
+           TOKENS
+           Signature: hand-scrawled "tantrum mark" — an angry
+           marker scratch that draws itself under key words,
+           echoed as a divider and a hover accent throughout.
+        =================================================== */
         :root {
-            --acid-green: #BBFF00;
-            --acid-green-dim: #99CC00;
-            --acid-green-glow: rgba(187, 255, 0, 0.4);
-            --bg-void: #000000;
-            --bg-obsidian: #050608;
-            --bg-charcoal: #121419;
-            --text-high: #FFFFFF;
-            --text-mid: #A0A9B5;
-            --text-low: #606875;
-            --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
-            --border-radius-main: 16px;
-            --font-main: 'Chakra Petch', sans-serif;
-            --font-head: 'Syncopate', sans-serif;
+            --void:        #07070a;
+            --panel:       #101218;
+            --panel-2:     #161923;
+            --panel-edge:  rgba(255,255,255,0.07);
+
+            --acid:        #C6FF3D;
+            --acid-dim:    #9FDB1F;
+            --acid-glow:   rgba(198, 255, 61, 0.35);
+
+            --riot:        #FF3E7F;
+            --riot-glow:   rgba(255, 62, 127, 0.35);
+
+            --volt:        #FFD23D;
+
+            --text-high:   #F6F8FA;
+            --text-mid:    #99A2AF;
+            --text-low:    #565E6B;
+
+            --ease-punch:  cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-out:    cubic-bezier(0.23, 1, 0.32, 1);
+
+            --radius:      14px;
+            --font-display:'Anton', sans-serif;
+            --font-body:   'Space Grotesk', sans-serif;
+            --font-mono:   'Space Mono', monospace;
         }
 
-        /* --- GLOBAL RESET & STYLES --- */
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        
+
+        html { scroll-behavior: smooth; }
+
         body {
-            background-color: var(--bg-obsidian);
+            background-color: var(--void);
             color: var(--text-mid);
-            font-family: var(--font-main);
+            font-family: var(--font-body);
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
             overflow-x: hidden;
+            position: relative;
+        }
+
+        /* film-grain texture, ambient over everything */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 2;
+            pointer-events: none;
+            opacity: 0.035;
+            mix-blend-mode: overlay;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
         }
 
         a { text-decoration: none; color: inherit; transition: color 0.3s var(--ease-out); }
-        a:hover { color: var(--acid-green); }
 
-        /* --- FANCY OPENING ANIMATION STYLES --- */
-        
-        /* 1. Full Screen Loader Overlay */
+        ::selection { background: var(--riot); color: var(--void); }
+
+        :focus-visible {
+            outline: 2px solid var(--acid);
+            outline-offset: 3px;
+        }
+
+        /* ===================================================
+           PRELOADER — glitch flicker instead of plain fade
+        =================================================== */
         .loader-wrapper {
             position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background-color: var(--bg-obsidian);
+            inset: 0;
+            background-color: var(--void);
             z-index: 9999;
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
-            transition: transform 0.9s cubic-bezier(0.7, 0, 0.3, 1), opacity 0.9s ease;
+            gap: 1.25rem;
+            transition: transform 0.9s var(--ease-punch), opacity 0.7s ease;
         }
-        
-        /* Hide loader when 'loaded' class is added to body */
         body.loaded .loader-wrapper {
             transform: translateY(-100%);
             opacity: 0;
             pointer-events: none;
         }
-
-        /* Loader Logo Glowing Effect */
         .loader-logo {
-            font-family: var(--font-head);
-            font-size: 2.5rem;
-            color: var(--acid-green);
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 6vw, 3rem);
+            letter-spacing: 3px;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            animation: pulseGlow 1s infinite alternate;
+            color: var(--text-high);
+            position: relative;
         }
-        .loader-logo span { color: var(--text-high); font-weight: 400; }
-
-        /* Loader Neon Progress Bar */
-        .loader-bar {
-            width: 0; height: 2px;
-            background: var(--acid-green);
-            margin-top: 1.5rem;
-            box-shadow: 0 0 15px var(--acid-green);
-            animation: fillBar 1.2s cubic-bezier(0.8, 0, 0.2, 1) forwards;
+        .loader-logo span { color: var(--acid); }
+        .loader-logo::before, .loader-logo::after {
+            content: 'TANTRUM GAMES';
+            position: absolute;
+            inset: 0;
+            opacity: 0.7;
         }
-
-        @keyframes pulseGlow {
-            0% { text-shadow: 0 0 5px rgba(187,255,0,0.2); }
-            100% { text-shadow: 0 0 25px rgba(187,255,0,0.8); }
+        .loader-logo::before { color: var(--riot); animation: glitchA 2.2s infinite; }
+        .loader-logo::after  { color: var(--acid); animation: glitchB 2.6s infinite; }
+        @keyframes glitchA {
+            0%, 92%, 100% { clip-path: inset(0 0 0 0); transform: translate(0,0); opacity: 0; }
+            93% { clip-path: inset(10% 0 60% 0); transform: translate(-3px,1px); opacity: 0.8; }
+            96% { clip-path: inset(60% 0 5% 0); transform: translate(3px,-1px); opacity: 0.8; }
         }
-        @keyframes fillBar {
-            0% { width: 0; }
-            100% { width: 250px; }
+        @keyframes glitchB {
+            0%, 90%, 100% { clip-path: inset(0 0 0 0); transform: translate(0,0); opacity: 0; }
+            91% { clip-path: inset(70% 0 5% 0); transform: translate(3px,0); opacity: 0.7; }
+            94% { clip-path: inset(5% 0 70% 0); transform: translate(-3px,0); opacity: 0.7; }
         }
-
-        /* 2. Base Reveal Classes (Hidden by default) */
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s var(--ease-out);
-        }
-        
-        header { transform: translateY(-100%); transition: transform 0.8s var(--ease-out); }
-
-        /* 3. Staggered Animations Triggered on Load */
-        body.loaded header { transform: translateY(0); transition-delay: 0.6s; }
-        body.loaded .reveal { opacity: 1; transform: translateY(0); }
-        
-        /* Specific delays for a cascading effect */
-        body.loaded .hero-badge { transition-delay: 0.7s; }
-        body.loaded .hero-h1 { transition-delay: 0.8s; }
-        body.loaded .hero-p { transition-delay: 0.9s; }
-        body.loaded .hero-btn { transition-delay: 1.0s; }
-        
-        body.loaded .game-card:nth-child(1) { transition-delay: 1.0s; }
-        body.loaded .game-card:nth-child(2) { transition-delay: 1.1s; }
-        body.loaded .game-card:nth-child(3) { transition-delay: 1.2s; }
-        body.loaded .game-card:nth-child(4) { transition-delay: 1.3s; }
-
-        /* --- LAYOUT UTILITIES --- */
-        .container { width: 90%; max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
-
-        /* --- HEADER / NAVIGATION --- */
-        header {
-            position: fixed; top: 0; left: 0; width: 100%;
-            background-color: rgba(5, 6, 8, 0.95);
-            backdrop-filter: blur(8px);
-            z-index: 1000;
-            border-bottom: 1px solid rgba(187, 255, 0, 0.1);
-            padding: 1rem 0;
-        }
-        nav { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-family: var(--font-head); color: var(--acid-green); font-weight: 700; font-size: 1.25rem; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 8px;}
-        .logo span { font-weight: 400; color: var(--text-high); font-size: 1rem;}
-        .nav-links { display: flex; gap: 2rem; list-style: none; font-size: 0.9rem; font-weight: 600; text-transform: uppercase;}
-
-        /* --- HERO SECTION --- */
-        .hero { padding: 160px 0 80px; text-align: center; background: radial-gradient(circle at 50% 30%, rgba(187, 255, 0, 0.06) 0%, rgba(0,0,0,0) 60%); }
-        .hero h1 { font-family: var(--font-head); font-size: 3rem; color: var(--text-high); text-transform: uppercase; letter-spacing: -2px; margin-bottom: 1rem; line-height: 1; }
-        .hero h1 span { color: var(--acid-green); display: block; }
-        .hero p { max-width: 600px; margin: 0 auto 3rem; font-size: 1.1rem; color: var(--text-mid); font-weight: 300; }
-
-        /* --- BUTTON STYLE & HOVER EFFECTS --- */
-        .btn {
-            display: inline-flex; 
-            align-items: center; 
-            justify-content: center;
-            background-color: var(--bg-charcoal); 
-            color: var(--acid-green) !important;
-            padding: 1rem 2.5rem; 
-            border: 1px solid var(--acid-green); 
-            border-radius: 4px;
-            font-weight: 700; 
-            font-size: 0.95rem; 
-            text-transform: uppercase; 
-            letter-spacing: 1px;
-            transition: all 0.3s var(--ease-out); 
-            position: relative; 
-            z-index: 1;
+        .loader-bar-track {
+            width: 220px; height: 3px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 2px;
             overflow: hidden;
         }
+        .loader-bar {
+            width: 0; height: 100%;
+            background: linear-gradient(90deg, var(--riot), var(--acid));
+            box-shadow: 0 0 12px var(--acid-glow);
+            animation: fillBar 1.3s var(--ease-punch) forwards;
+        }
+        .loader-tag {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            color: var(--text-low);
+            text-transform: uppercase;
+        }
+        @keyframes fillBar { 0% { width: 0; } 100% { width: 220px; } }
 
-        .btn:hover { 
-            color: var(--bg-obsidian) !important; 
-            box-shadow: 0 0 20px var(--acid-green-glow); 
-            transform: translateY(-2px); 
+        /* ===================================================
+           REVEAL SYSTEM
+        =================================================== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.7s var(--ease-punch), transform 0.7s var(--ease-punch);
+        }
+        .reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+        header { transform: translateY(-100%); transition: transform 0.7s var(--ease-punch); }
+        body.loaded header { transform: translateY(0); transition-delay: 0.5s; }
+
+        body.loaded .hero-badge { transition: none; }
+        body.loaded .hero-badge.reveal { transition: opacity 0.6s var(--ease-punch) 0.65s, transform 0.6s var(--ease-punch) 0.65s; }
+        body.loaded .hero-h1.reveal { transition-delay: 0.75s; }
+        body.loaded .hero-p.reveal { transition-delay: 0.9s; }
+        body.loaded .hero-btn.reveal { transition-delay: 1.0s; }
+
+        /* ===================================================
+           LAYOUT
+        =================================================== */
+        .container { width: 90%; max-width: 1200px; margin: 0 auto; padding: 0 1rem; position: relative; z-index: 3; }
+
+        /* ===================================================
+           HEADER
+        =================================================== */
+        header {
+            position: fixed; top: 0; left: 0; width: 100%;
+            background-color: rgba(7, 7, 10, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--panel-edge);
+            padding: 1.1rem 0;
+        }
+        nav { display: flex; justify-content: space-between; align-items: center; }
+        .logo {
+            font-family: var(--font-display);
+            color: var(--text-high);
+            font-size: 1.15rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .logo span { color: var(--acid); }
+        .nav-links { display: flex; gap: 2.25rem; list-style: none; font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        .nav-links a { position: relative; padding-bottom: 4px; }
+        .nav-links a::after {
+            content: '';
+            position: absolute; left: 0; bottom: 0;
+            width: 0; height: 2px;
+            background: var(--riot);
+            transition: width 0.3s var(--ease-out);
+        }
+        .nav-links a:hover { color: var(--text-high); }
+        .nav-links a:hover::after { width: 100%; }
+
+        /* ===================================================
+           HERO
+        =================================================== */
+        .hero {
+            padding: 168px 0 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-glow {
+            position: absolute;
+            top: -10%; left: 50%;
+            width: 900px; height: 900px;
+            transform: translateX(-50%);
+            background: radial-gradient(circle, var(--acid-glow) 0%, rgba(255,62,127,0.08) 35%, transparent 65%);
+            filter: blur(10px);
+            animation: breathe 7s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+        @keyframes breathe {
+            0%, 100% { opacity: 0.55; transform: translateX(-50%) scale(1); }
+            50% { opacity: 0.9; transform: translateX(-50%) scale(1.08); }
         }
 
-        .btn:before {
-            content: ''; 
-            position: absolute; 
-            top: 50%; 
-            left: 50%; 
-            width: 0; 
-            height: 0;
-            background-color: var(--acid-green); 
-            transform: translate(-50%, -50%) rotate(45deg);
-            z-index: -1; 
-            transition: all 0.4s var(--ease-out);
+        .stamp {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--acid);
+            border: 1px dashed rgba(198, 255, 61, 0.5);
+            border-radius: 100px;
+            padding: 0.45rem 1rem;
+            transform: rotate(-2deg);
+            margin-bottom: 2rem;
+        }
+        .stamp .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--riot); box-shadow: 0 0 8px var(--riot-glow); animation: blink 1.6s ease-in-out infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2.6rem, 8vw, 5.2rem);
+            color: var(--text-high);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            line-height: 0.98;
+            margin-bottom: 1.6rem;
+        }
+        .hero h1 .accent-line { display: block; position: relative; color: var(--void); }
+        .hero h1 .accent-line .fill { color: var(--acid); position: relative; z-index: 1;}
+        .scrawl-wrap { position: relative; display: inline-block; }
+        .scrawl-wrap svg {
+            position: absolute;
+            left: -4%; right: -4%; bottom: -0.14em;
+            width: 108%; height: 0.5em;
+            overflow: visible;
+        }
+        .scrawl-wrap svg path {
+            fill: none;
+            stroke: var(--riot);
+            stroke-width: 10;
+            stroke-linecap: round;
+            stroke-dasharray: 900;
+            stroke-dashoffset: 900;
+        }
+        body.loaded .scrawl-wrap svg path { animation: draw 0.9s var(--ease-punch) 1.35s forwards; }
+        @keyframes draw { to { stroke-dashoffset: 0; } }
+
+        .hero p {
+            max-width: 560px; margin: 0 auto 2.6rem;
+            font-size: 1.08rem; color: var(--text-mid); font-weight: 400;
         }
 
-        .btn:hover:before { 
-            width: 350%; 
-            height: 350%; 
+        /* ===================================================
+           BUTTONS
+        =================================================== */
+        .btn {
+            display: inline-flex;
+            align-items: center; justify-content: center;
+            gap: 0.5rem;
+            background-color: transparent;
+            color: var(--text-high);
+            padding: 0.95rem 2.2rem;
+            border: 1.5px solid var(--acid);
+            border-radius: 6px;
+            font-weight: 700; font-size: 0.88rem;
+            text-transform: uppercase; letter-spacing: 1px;
+            transition: color 0.35s var(--ease-out), transform 0.35s var(--ease-punch), box-shadow 0.35s var(--ease-out);
+            position: relative; z-index: 1; overflow: hidden;
+        }
+        .btn::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: var(--acid);
+            transform: translateX(-101%);
+            transition: transform 0.35s var(--ease-punch);
+            z-index: -1;
+        }
+        .btn:hover {
+            color: var(--void);
+            box-shadow: 0 6px 24px -6px var(--acid-glow);
+            transform: translateY(-2px);
+        }
+        .btn:hover::before { transform: translateX(0); }
+        .btn:active { transform: translateY(0) scale(0.98); }
+
+        /* ===================================================
+           MARQUEE — arcade-cabinet ticker, the connective tissue
+           between hero and grid; distinctive rather than decorative
+        =================================================== */
+        .marquee {
+            border-top: 1px solid var(--panel-edge);
+            border-bottom: 1px solid var(--panel-edge);
+            background: var(--panel);
+            padding: 0.85rem 0;
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+        }
+        .marquee-track {
+            display: inline-flex;
+            gap: 2.5rem;
+            animation: scrollMarquee 26s linear infinite;
+        }
+        .marquee-track span {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-mid);
+            display: inline-flex; align-items: center; gap: 0.6rem;
+        }
+        .marquee-track span b { color: var(--acid); font-weight: 400; }
+        .marquee-track span.pink b { color: var(--riot); }
+        @keyframes scrollMarquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+        /* ===================================================
+           GAMES SECTION
+        =================================================== */
+        .games { padding: 96px 0 60px; }
+        .section-head { text-align: center; margin-bottom: 3.5rem; }
+        .eyebrow {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--riot);
+            margin-bottom: 0.75rem;
+        }
+        .games h2 {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 4vw, 2.6rem);
+            color: var(--text-high);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            display: inline-block;
+        }
+        .games-subtitle { color: var(--text-mid); margin-top: 0.9rem; }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.75rem;
         }
 
-        /* --- GAMES SECTION --- */
-        .games { padding: 80px 0; }
-        .games h2 { font-family: var(--font-head); font-size: 2rem; color: var(--text-high); text-transform: uppercase; margin-bottom: 1rem; text-align: center; }
-        .games-subtitle { text-align: center; color: var(--text-mid); margin-bottom: 4rem;}
-        .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2rem; }
-        .game-card { background-color: var(--bg-charcoal); border: 1px solid rgba(255,255,255,0.05); border-radius: var(--border-radius-main); padding: 1.5rem; transition: all 0.3s var(--ease-out); display: flex; flex-direction: column; justify-content: space-between; }
-        .game-card:hover { border-color: var(--acid-green); box-shadow: 0 10px 40px -10px rgba(0,0,0,0.5); transform: translateY(-5px); }
-        .game-top { display: flex; align-items: start; gap: 1rem; margin-bottom: 1.5rem; }
-        .game-icon { width: 72px; height: 72px; border-radius: 12px; border: 1px solid rgba(187, 255, 0, 0.3); object-fit: cover; background-color: var(--bg-obsidian); flex-shrink: 0; }
-        .game-meta h3 { font-size: 1.2rem; color: var(--text-high); margin-bottom: 0.25rem; line-height: 1.3;}
-        .game-meta p { font-size: 0.8rem; color: var(--text-low); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem; }
-        .game-badge { display: inline-block; padding: 2px 8px; background-color: rgba(187, 255, 0, 0.1); color: var(--acid-green); border-radius: 4px; font-size: 0.75rem; font-weight: 600; }
-        .game-description { font-size: 0.95rem; color: var(--text-mid); margin-bottom: 1.5rem; }
-        .game-card .btn { width: 100%; padding: 0.8rem; font-size: 0.85rem; border-color: rgba(187, 255, 0, 0.4);}
+        .game-card {
+            --glow: var(--acid-glow);
+            --accent: var(--acid);
+            background: linear-gradient(180deg, var(--panel-2), var(--panel));
+            border: 1px solid var(--panel-edge);
+            border-radius: var(--radius);
+            padding: 1.6rem;
+            transition: transform 0.45s var(--ease-punch), border-color 0.35s var(--ease-out), box-shadow 0.45s var(--ease-out);
+            display: flex; flex-direction: column; justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+        .game-card:nth-child(odd)  { transform: rotate(-0.6deg); }
+        .game-card:nth-child(even) { transform: rotate(0.6deg); }
+        .game-card.is-visible:nth-child(odd)  { transform: rotate(-0.6deg); }
+        .game-card.is-visible:nth-child(even) { transform: rotate(0.6deg); }
 
-        /* --- FOOTER SECTION --- */
-        footer { margin-top: auto; padding: 4rem 0 2rem; border-top: 1px solid rgba(187, 255, 0, 0.05); background-color: var(--bg-charcoal); font-size: 0.9rem; color: var(--text-low); }
-        footer .container { display: flex; flex-direction: column; align-items: center; gap: 2rem;}
-        .footer-logo { font-family: var(--font-head); color: var(--acid-green-dim); font-weight: 700; font-size: 1.5rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.5rem; }
+        .game-card::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: var(--radius);
+            padding: 1px;
+            background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 0%), var(--accent), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.35s var(--ease-out);
+            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+        .game-card:hover {
+            transform: rotate(0deg) translateY(-6px);
+            border-color: transparent;
+            box-shadow: 0 20px 40px -18px var(--glow);
+        }
+        .game-card:hover::before { opacity: 1; }
+
+        .game-top { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.4rem; }
+        .game-icon-wrap {
+            width: 68px; height: 68px; flex-shrink: 0;
+            border-radius: 12px;
+            border: 1px solid var(--panel-edge);
+            background: var(--void);
+            overflow: hidden;
+            position: relative;
+        }
+        .game-icon-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .game-icon-fallback {
+            position: absolute; inset: 0;
+            display: flex; align-items: center; justify-content: center;
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            color: var(--void);
+            background: linear-gradient(135deg, var(--accent), var(--panel-2));
+        }
+
+        .game-meta h3 { font-family: var(--font-body); font-weight: 700; font-size: 1.12rem; color: var(--text-high); margin-bottom: 0.2rem; line-height: 1.3; }
+        .game-meta p { font-size: 0.75rem; color: var(--text-low); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem; }
+
+        .game-badge {
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            padding: 3px 9px;
+            background-color: rgba(198, 255, 61, 0.08);
+            color: var(--accent);
+            border-radius: 4px;
+            font-size: 0.68rem; font-weight: 700; letter-spacing: 0.5px;
+            font-family: var(--font-mono);
+        }
+        .game-badge .live-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; animation: blink 1.6s ease-in-out infinite; }
+
+        .game-description { font-size: 0.92rem; color: var(--text-mid); margin-bottom: 1.5rem; }
+
+        .game-card .btn {
+            width: 100%; padding: 0.75rem; font-size: 0.8rem;
+            border-color: var(--accent); color: var(--accent);
+        }
+        .game-card .btn::before { background: var(--accent); }
+        .game-card .btn:hover { color: var(--void); box-shadow: 0 6px 20px -6px var(--glow); }
+
+        /* ===================================================
+           FOOTER
+        =================================================== */
+        footer {
+            margin-top: 40px;
+            padding: 4rem 0 2.5rem;
+            border-top: 1px solid var(--panel-edge);
+            background-color: var(--panel);
+            font-size: 0.9rem; color: var(--text-low);
+            position: relative;
+        }
+        footer .container { display: flex; flex-direction: column; align-items: center; gap: 1.75rem; text-align: center; }
+        .footer-logo {
+            font-family: var(--font-display);
+            color: var(--text-high);
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .footer-logo span { color: var(--acid); }
         .footer-links { display: flex; gap: 2rem; list-style: none; }
-        .footer-links a { color: var(--text-mid); font-weight: 600; text-transform: uppercase;}
-        .footer-links a:hover { color: var(--acid-green); }
-        .copyright { font-size: 0.8rem; margin-top: 1rem; text-align: center;}
+        .footer-links a { color: var(--text-mid); font-weight: 700; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.5px; }
+        .footer-links a:hover { color: var(--riot); }
+        .copyright { font-size: 0.78rem; }
 
         @media (max-width: 768px) {
-            .hero { padding: 120px 0 60px; }
-            .hero h1 { font-size: 2rem; letter-spacing: -1px;}
-            .hero p { font-size: 1rem; }
+            .hero { padding: 128px 0 40px; }
             .nav-links { display: none; }
             .games-grid { grid-template-columns: 1fr; }
+            .game-card:nth-child(odd), .game-card:nth-child(even) { transform: none; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.001ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.001ms !important;
+                scroll-behavior: auto !important;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- PRELOADER ANIMATION OVERLAY -->
+    <!-- PRELOADER -->
     <div class="loader-wrapper">
-        <div class="loader-logo">Tantrum<span>Games</span></div>
-        <div class="loader-bar"></div>
+        <div class="loader-logo" data-text="TANTRUM GAMES">TANTRUM <span>GAMES</span></div>
+        <div class="loader-bar-track"><div class="loader-bar"></div></div>
+        <div class="loader-tag">Loading chaos&hellip;</div>
     </div>
 
     <!-- NAVIGATION -->
@@ -237,78 +517,106 @@
         </div>
     </header>
 
-    <!-- HERO SECTION -->
+    <!-- HERO -->
     <section class="hero">
+        <div class="hero-glow"></div>
         <div class="container">
-            <div class="game-badge reveal hero-badge">GOOGLE PLAY DEVELOPER</div>
-            <h1 class="reveal hero-h1">UNLEASH THE <span>Tantrum</span></h1>
-            <p class="reveal hero-p">Creating vibrant, high-energy gaming experiences for the Google Play Store.</p>
-            <a href="#games" class="btn reveal hero-btn">Explore Games</a>
+            <div class="stamp reveal hero-badge"><span class="dot"></span> Google Play Developer</div>
+
+            <h1 class="hero-h1 reveal">
+                UNLEASH THE
+                <span class="scrawl-wrap">
+                    <span class="fill">TANTRUM</span>
+                    <svg viewBox="0 0 300 40" preserveAspectRatio="none" aria-hidden="true">
+                        <path d="M4,26 C60,10 90,34 150,20 C200,8 240,30 296,14"></path>
+                    </svg>
+                </span>
+            </h1>
+
+            <p class="hero-p reveal">High-voltage, high-speed, occasionally unreasonable mobile games — built for players who don't do "calm."</p>
+
+            <a href="#games" class="btn reveal hero-btn">See the games</a>
         </div>
     </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee" aria-hidden="true">
+        <div class="marquee-track" id="marqueeTrack"></div>
+    </div>
 
     <!-- GAMES SECTION -->
     <section class="games" id="games">
         <div class="container">
-            <h2 class="reveal">Current Releases</h2>
-            <p class="games-subtitle reveal">Active experiences on Google Play.</p>
-            
+            <div class="section-head">
+                <div class="eyebrow reveal">Current Releases</div>
+                <h2 class="reveal">Four Games. Zero Chill.</h2>
+                <p class="games-subtitle reveal">Live now on Google Play.</p>
+            </div>
+
             <div class="games-grid">
-                
+
                 <!-- GAME 1 -->
-                <div class="game-card reveal">
+                <div class="game-card reveal" style="--accent: var(--acid); --glow: var(--acid-glow);">
                     <div class="game-top">
-                        <img src="cardrift-icon.png" alt="Car Drift Racing Icon" class="game-icon">
+                        <div class="game-icon-wrap">
+                            <img src="cardrift-icon.png" alt="Car Drift Racing Icon" class="game-icon" loading="lazy">
+                        </div>
                         <div class="game-meta">
                             <h3>Car Drift Racing</h3>
                             <p>Police Chase</p>
-                            <span class="game-badge">LIVE NOW</span>
+                            <span class="game-badge"><span class="live-dot"></span>Live Now</span>
                         </div>
                     </div>
                     <p class="game-description">High-speed police pursuits meet precision drifting action in this electric highway racing simulator.</p>
-                    <a href="https://play.google.com/store/apps/details?id=com.tantrumgames.car.games.drift.race" class="btn" target="_blank">Google Play</a>
+                    <a href="https://play.google.com/store/apps/details?id=com.tantrumgames.car.games.drift.race" class="btn" target="_blank" rel="noopener">Google Play</a>
                 </div>
 
                 <!-- GAME 2 -->
-                <div class="game-card reveal">
+                <div class="game-card reveal" style="--accent: var(--riot); --glow: var(--riot-glow);">
                     <div class="game-top">
-                        <img src="quadbike-icon.png" alt="ATV Quad Bike Icon" class="game-icon">
+                        <div class="game-icon-wrap">
+                            <img src="quadbike-icon.png" alt="ATV Quad Bike Icon" class="game-icon" loading="lazy">
+                        </div>
                         <div class="game-meta">
                             <h3>ATV Quad Bike</h3>
                             <p>3D Racing Games</p>
-                            <span class="game-badge">LIVE NOW</span>
+                            <span class="game-badge"><span class="live-dot"></span>Live Now</span>
                         </div>
                     </div>
                     <p class="game-description">Tackle rough off-road tracks and engage in intense high-octane quad bike action.</p>
-                    <a href="https://play.google.com/store/apps/details?id=com.TantrumGamesStudio.QuadbikeShooter" class="btn" target="_blank">Google Play</a>
+                    <a href="https://play.google.com/store/apps/details?id=com.TantrumGamesStudio.QuadbikeShooter" class="btn" target="_blank" rel="noopener">Google Play</a>
                 </div>
 
                 <!-- GAME 3 -->
-                <div class="game-card reveal">
+                <div class="game-card reveal" style="--accent: var(--volt); --glow: rgba(255,210,61,0.35);">
                     <div class="game-top">
-                        <img src="mxmoto-icon.png" alt="MX Bikes Icon" class="game-icon">
+                        <div class="game-icon-wrap">
+                            <img src="mxmoto-icon.png" alt="MX Bikes Icon" class="game-icon" loading="lazy">
+                        </div>
                         <div class="game-meta">
                             <h3>MX Bikes</h3>
                             <p>Moto 3D Dirt Racing</p>
-                            <span class="game-badge">LIVE NOW</span>
+                            <span class="game-badge"><span class="live-dot"></span>Live Now</span>
                         </div>
                     </div>
                     <p class="game-description">Master extreme motocross stunts, dirt trails, and wild jumps with realistic bike physics.</p>
-                    <a href="https://play.google.com/store/apps/details?id=com.TantrumGamesStudio.BikeMud" class="btn" target="_blank">Google Play</a>
+                    <a href="https://play.google.com/store/apps/details?id=com.TantrumGamesStudio.BikeMud" class="btn" target="_blank" rel="noopener">Google Play</a>
                 </div>
 
                 <!-- GAME 4 -->
-                <div class="game-card reveal">
+                <div class="game-card reveal" style="--accent: var(--acid); --glow: var(--acid-glow);">
                     <div class="game-top">
-                        <img src="fishmerge-icon.png" alt="Fish Evolution Icon" class="game-icon">
+                        <div class="game-icon-wrap">
+                            <img src="fishmerge-icon.png" alt="Fish Evolution Icon" class="game-icon" loading="lazy">
+                        </div>
                         <div class="game-meta">
                             <h3>Fish Evolution</h3>
                             <p>Merge Game</p>
-                            <span class="game-badge">LIVE NOW</span>
+                            <span class="game-badge"><span class="live-dot"></span>Live Now</span>
                         </div>
                     </div>
                     <p class="game-description">Drop, match, and merge marine creatures to unlock exotic species in a vibrant aquatic world.</p>
-                    <a href="https://play.google.com/store/apps/details?id=com.TantrumGamesStudio.fish.drop.merge.evolve" class="btn" target="_blank">Google Play</a>
+                    <a href="https://play.google.com/store/apps/details?id=com.TantrumGamesStudio.fish.drop.merge.evolve" class="btn" target="_blank" rel="noopener">Google Play</a>
                 </div>
 
             </div>
@@ -318,26 +626,74 @@
     <!-- FOOTER -->
     <footer>
         <div class="container">
-            <div style="text-align: center;">
-                <div class="footer-logo">Tantrum</div>
-                <div class="copyright">Independent Game Development</div>
-            </div>
-            
+            <div class="footer-logo">Tantrum<span>Games</span></div>
             <ul class="footer-links">
                 <li><a href="#games">Games</a></li>
                 <li><a href="privacy.html">Privacy Policy</a></li>
             </ul>
-
-            <div class="copyright">&copy; <script>document.write(new Date().getFullYear())</script> Tantrum Games Studio. All rights reserved.</div>
+            <div class="copyright">&copy; <span id="year"></span> Tantrum Games Studio. All rights reserved.</div>
         </div>
     </footer>
 
-    <!-- ANIMATION TRIGGER SCRIPT -->
     <script>
+        // Preloader trigger
         window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.body.classList.add('loaded');
-            }, 1200);
+            setTimeout(() => document.body.classList.add('loaded'), 900);
+        });
+
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Scroll-reveal via IntersectionObserver
+        const revealEls = document.querySelectorAll('.reveal');
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    io.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+        revealEls.forEach(el => io.observe(el));
+
+        // Hero elements are handled by the load animation, but still
+        // need is-visible for consistency if user has reduced motion off
+        document.querySelectorAll('.hero-badge, .hero-h1, .hero-p, .hero-btn').forEach(el => {
+            io.observe(el);
+        });
+
+        // Marquee content — build from game names, duplicated for seamless loop
+        const games = ['Car Drift Racing', 'ATV Quad Bike', 'MX Bikes', 'Fish Evolution'];
+        const track = document.getElementById('marqueeTrack');
+        const buildMarquee = () => {
+            let html = '';
+            for (let rep = 0; rep < 2; rep++) {
+                games.forEach((g, i) => {
+                    html += `<span class="${i % 2 ? 'pink' : ''}">${g} <b>&bull;</b></span>`;
+                });
+            }
+            track.innerHTML = html;
+        };
+        buildMarquee();
+
+        // Spotlight cursor-glow on game cards
+        document.querySelectorAll('.game-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                card.style.setProperty('--mx', `${e.clientX - rect.left}px`);
+                card.style.setProperty('--my', `${e.clientY - rect.top}px`);
+            });
+        });
+
+        // Graceful fallback for missing game icon images
+        document.querySelectorAll('.game-icon').forEach(img => {
+            img.addEventListener('error', () => {
+                const wrap = img.closest('.game-icon-wrap');
+                img.remove();
+                const fallback = document.createElement('div');
+                fallback.className = 'game-icon-fallback';
+                fallback.textContent = (wrap.nextElementSibling?.querySelector('h3')?.textContent || wrap.parentElement.querySelector('h3').textContent || '?').trim().charAt(0);
+                wrap.appendChild(fallback);
+            }, { once: true });
         });
     </script>
 
