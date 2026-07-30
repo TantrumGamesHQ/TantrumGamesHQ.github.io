@@ -256,9 +256,17 @@
             margin-top: 1.5rem;
             margin-bottom: 2rem;
             border-radius: 6px;
+            width: 100%;
         }
         .contact-box p { margin-bottom: 0.4rem; }
         .contact-box p:last-child { margin-bottom: 0; }
+        
+        /* Mobile text wrapping for contact links */
+        .contact-box a {
+            overflow-wrap: anywhere;
+            word-break: break-word;
+            display: inline-block;
+        }
 
         /* BUTTONS */
         .btn {
@@ -405,7 +413,7 @@
                     <p>Website: <a href="https://TantrumGamesHQ.github.io/">https://TantrumGamesHQ.github.io/</a></p>
                 </div>
 
-                <a href="index.html" class="btn">&larr; Return to Studio Homepage</a>
+                <a href="index.html" class="btn">&larr; Return to Tantrum Homepage</a>
 
             </div>
         </div>
