@@ -171,9 +171,10 @@
             border: 1px solid rgba(187, 255, 0, 0.3);
             object-fit: cover;
             background-color: var(--bg-obsidian);
+            flex-shrink: 0;
         }
 
-        .game-meta h3 { font-size: 1.25rem; color: var(--text-high); margin-bottom: 0.25rem; }
+        .game-meta h3 { font-size: 1.2rem; color: var(--text-high); margin-bottom: 0.25rem; line-height: 1.3;}
         .game-meta p { font-size: 0.8rem; color: var(--text-low); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem; }
         
         .game-badge {
@@ -247,16 +248,15 @@
     <!-- --- GAMES SECTION --- -->
     <section class="games" id="games">
         <div class="container">
-            <h2>Current Release</h2>
+            <h2>Current Releases</h2>
             <p class="games-subtitle">Active experiences on Google Play.</p>
             
             <div class="games-grid">
                 
+                <!-- GAME 1: Car Drift Racing -->
                 <div class="game-card">
                     <div class="game-top">
-                        <!-- GAME ICON IMAGE LINKED HERE -->
-                        <img src="cardrift-icon.png" alt="Car Drift Racing Icon" class="game-icon">
-                        
+                        <img src="game-icon.png" alt="Car Drift Racing Icon" class="game-icon">
                         <div class="game-meta">
                             <h3>Car Drift Racing</h3>
                             <p>Police Chase</p>
@@ -265,6 +265,48 @@
                     </div>
                     <p class="game-description">High-speed police pursuits meet precision drifting action in this electric highway racing simulator.</p>
                     <a href="https://play.google.com/store/apps/details?id=com.tantrumgames.car.games.drift.race" class="btn" target="_blank">Google Play</a>
+                </div>
+
+                <!-- GAME 2: ATV Quad Bike 3D Racing Games -->
+                <div class="game-card">
+                    <div class="game-top">
+                        <img src="quadbike-icon.png" alt="ATV Quad Bike Icon" class="game-icon">
+                        <div class="game-meta">
+                            <h3>ATV Quad Bike</h3>
+                            <p>3D Racing Games</p>
+                            <span class="game-badge">LIVE NOW</span>
+                        </div>
+                    </div>
+                    <p class="game-description">Tackle rough off-road tracks and engage in intense high-octane quad bike action.</p>
+                    <a href="https://play.google.com/store/apps/details?id=com.TantrumGamesStudio.QuadbikeShooter" class="btn" target="_blank">Google Play</a>
+                </div>
+
+                <!-- GAME 3: MX Bikes: Moto 3D Dirt Racing -->
+                <div class="game-card">
+                    <div class="game-top">
+                        <img src="mxbikes-icon.png" alt="MX Bikes Icon" class="game-icon">
+                        <div class="game-meta">
+                            <h3>MX Bikes</h3>
+                            <p>Moto 3D Dirt Racing</p>
+                            <span class="game-badge">LIVE NOW</span>
+                        </div>
+                    </div>
+                    <p class="game-description">Master extreme motocross stunts, dirt trails, and wild jumps with realistic bike physics.</p>
+                    <a href="https://play.google.com/store/apps/details?id=com.TantrumGamesStudio.BikeMud" class="btn" target="_blank">Google Play</a>
+                </div>
+
+                <!-- GAME 4: Fish Evolution: Merge Game -->
+                <div class="game-card">
+                    <div class="game-top">
+                        <img src="fishevolution-icon.png" alt="Fish Evolution Icon" class="game-icon">
+                        <div class="game-meta">
+                            <h3>Fish Evolution</h3>
+                            <p>Merge Game</p>
+                            <span class="game-badge">LIVE NOW</span>
+                        </div>
+                    </div>
+                    <p class="game-description">Drop, match, and merge marine creatures to unlock exotic species in a vibrant aquatic world.</p>
+                    <a href="https://play.google.com/store/apps/details?id=com.TantrumGamesStudio.fish.drop.merge.evolve" class="btn" target="_blank">Google Play</a>
                 </div>
 
             </div>
