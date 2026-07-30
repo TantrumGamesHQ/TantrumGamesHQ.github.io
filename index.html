@@ -16,15 +16,12 @@
             --acid-green: #BBFF00;
             --acid-green-dim: #99CC00;
             --acid-green-glow: rgba(187, 255, 0, 0.4);
-            
             --bg-void: #000000;
             --bg-obsidian: #050608;
             --bg-charcoal: #121419;
-            
             --text-high: #FFFFFF;
             --text-mid: #A0A9B5;
             --text-low: #606875;
-            
             --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
             --border-radius-main: 16px;
             --font-main: 'Chakra Petch', sans-serif;
@@ -46,82 +43,114 @@
         a { text-decoration: none; color: inherit; transition: color 0.3s var(--ease-out); }
         a:hover { color: var(--acid-green); }
 
-        /* --- LAYOUT UTILITIES --- */
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1rem;
+        /* ========================================= */
+        /* --- FANCY OPENING ANIMATION STYLES --- */
+        /* ========================================= */
+        
+        /* 1. Full Screen Loader Overlay */
+        .loader-wrapper {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: var(--bg-obsidian);
+            z-index: 9999;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            transition: transform 0.9s cubic-bezier(0.7, 0, 0.3, 1), opacity 0.9s ease;
         }
+        
+        /* Hide loader when 'loaded' class is added to body */
+        body.loaded .loader-wrapper {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Loader Logo Glowing Effect */
+        .loader-logo {
+            font-family: var(--font-head);
+            font-size: 2.5rem;
+            color: var(--acid-green);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: pulseGlow 1s infinite alternate;
+        }
+        .loader-logo span { color: var(--text-high); font-weight: 400; }
+
+        /* Loader Neon Progress Bar */
+        .loader-bar {
+            width: 0; height: 2px;
+            background: var(--acid-green);
+            margin-top: 1.5rem;
+            box-shadow: 0 0 15px var(--acid-green);
+            animation: fillBar 1.2s cubic-bezier(0.8, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes pulseGlow {
+            0% { text-shadow: 0 0 5px rgba(187,255,0,0.2); }
+            100% { text-shadow: 0 0 25px rgba(187,255,0,0.8); }
+        }
+        @keyframes fillBar {
+            0% { width: 0; }
+            100% { width: 250px; }
+        }
+
+        /* 2. Base Reveal Classes (Hidden by default) */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s var(--ease-out);
+        }
+        
+        header { transform: translateY(-100%); transition: transform 0.8s var(--ease-out); }
+
+        /* 3. Staggered Animations Triggered on Load */
+        body.loaded header { transform: translateY(0); transition-delay: 0.6s; }
+        body.loaded .reveal { opacity: 1; transform: translateY(0); }
+        
+        /* Specific delays for a cascading effect */
+        body.loaded .hero-badge { transition-delay: 0.7s; }
+        body.loaded .hero-h1 { transition-delay: 0.8s; }
+        body.loaded .hero-p { transition-delay: 0.9s; }
+        body.loaded .hero-btn { transition-delay: 1.0s; }
+        
+        body.loaded .game-card:nth-child(1) { transition-delay: 1.0s; }
+        body.loaded .game-card:nth-child(2) { transition-delay: 1.1s; }
+        body.loaded .game-card:nth-child(3) { transition-delay: 1.2s; }
+        body.loaded .game-card:nth-child(4) { transition-delay: 1.3s; }
+        /* ========================================= */
+
+        /* --- LAYOUT UTILITIES --- */
+        .container { width: 90%; max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
 
         /* --- HEADER / NAVIGATION --- */
         header {
-            position: fixed;
-            top: 0; left: 0; width: 100%;
+            position: fixed; top: 0; left: 0; width: 100%;
             background-color: rgba(5, 6, 8, 0.95);
             backdrop-filter: blur(8px);
             z-index: 1000;
             border-bottom: 1px solid rgba(187, 255, 0, 0.1);
             padding: 1rem 0;
         }
-
         nav { display: flex; justify-content: space-between; align-items: center; }
-
-        .logo {
-            font-family: var(--font-head);
-            color: var(--acid-green);
-            font-weight: 700;
-            font-size: 1.25rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            display: flex; align-items: center; gap: 8px;
-        }
+        .logo { font-family: var(--font-head); color: var(--acid-green); font-weight: 700; font-size: 1.25rem; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 8px;}
         .logo span { font-weight: 400; color: var(--text-high); font-size: 1rem;}
-
         .nav-links { display: flex; gap: 2rem; list-style: none; font-size: 0.9rem; font-weight: 600; text-transform: uppercase;}
 
         /* --- HERO SECTION --- */
-        .hero {
-            padding: 160px 0 80px;
-            text-align: center;
-            background: radial-gradient(circle at 50% 30%, rgba(187, 255, 0, 0.06) 0%, rgba(0,0,0,0) 60%);
-        }
-
-        .hero h1 {
-            font-family: var(--font-head);
-            font-size: 3rem;
-            color: var(--text-high);
-            text-transform: uppercase;
-            letter-spacing: -2px;
-            margin-bottom: 1rem;
-            line-height: 1;
-        }
-        .hero h1 span {
-            color: var(--acid-green);
-            display: block;
-        }
-        .hero p {
-            max-width: 600px; margin: 0 auto 3rem;
-            font-size: 1.1rem; color: var(--text-mid); font-weight: 300;
-        }
+        .hero { padding: 160px 0 80px; text-align: center; background: radial-gradient(circle at 50% 30%, rgba(187, 255, 0, 0.06) 0%, rgba(0,0,0,0) 60%); }
+        .hero h1 { font-family: var(--font-head); font-size: 3rem; color: var(--text-high); text-transform: uppercase; letter-spacing: -2px; margin-bottom: 1rem; line-height: 1; }
+        .hero h1 span { color: var(--acid-green); display: block; }
+        .hero p { max-width: 600px; margin: 0 auto 3rem; font-size: 1.1rem; color: var(--text-mid); font-weight: 300; }
 
         /* --- BUTTON STYLE --- */
         .btn {
             display: inline-flex; align-items: center; justify-content: center;
-            background-color: var(--bg-charcoal);
-            color: var(--acid-green);
-            padding: 1rem 2.5rem;
-            border: 1px solid var(--acid-green);
-            border-radius: 4px;
+            background-color: var(--bg-charcoal); color: var(--acid-green);
+            padding: 1rem 2.5rem; border: 1px solid var(--acid-green); border-radius: 4px;
             font-weight: 700; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 1px;
-            transition: all 0.3s var(--ease-out);
-            position: relative; overflow: hidden;
+            transition: all 0.3s var(--ease-out); position: relative; overflow: hidden;
         }
-        .btn:hover {
-            color: var(--bg-obsidian);
-            box-shadow: 0 0 20px var(--acid-green-glow);
-            transform: translateY(-2px);
-        }
+        .btn:hover { color: var(--bg-obsidian); box-shadow: 0 0 20px var(--acid-green-glow); transform: translateY(-2px); }
         .btn:before {
             content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0;
             background-color: var(--acid-green); transform: translate(-50%, -50%) rotate(45deg);
@@ -131,81 +160,28 @@
 
         /* --- GAMES SECTION --- */
         .games { padding: 80px 0; }
-        .games h2 {
-            font-family: var(--font-head); font-size: 2rem; color: var(--text-high);
-            text-transform: uppercase; margin-bottom: 1rem; text-align: center;
-        }
+        .games h2 { font-family: var(--font-head); font-size: 2rem; color: var(--text-high); text-transform: uppercase; margin-bottom: 1rem; text-align: center; }
         .games-subtitle { text-align: center; color: var(--text-mid); margin-bottom: 4rem;}
-
-        .games-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 2rem;
-        }
-
-        .game-card {
-            background-color: var(--bg-charcoal);
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: var(--border-radius-main);
-            padding: 1.5rem;
-            transition: all 0.3s var(--ease-out);
-            display: flex; flex-direction: column; justify-content: space-between;
-        }
-        .game-card:hover {
-            border-color: var(--acid-green);
-            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.5);
-            transform: translateY(-5px);
-        }
-
+        .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2rem; }
+        .game-card { background-color: var(--bg-charcoal); border: 1px solid rgba(255,255,255,0.05); border-radius: var(--border-radius-main); padding: 1.5rem; transition: all 0.3s var(--ease-out); display: flex; flex-direction: column; justify-content: space-between; }
+        .game-card:hover { border-color: var(--acid-green); box-shadow: 0 10px 40px -10px rgba(0,0,0,0.5); transform: translateY(-5px); }
         .game-top { display: flex; align-items: start; gap: 1rem; margin-bottom: 1.5rem; }
-
-        .game-icon {
-            width: 72px;
-            height: 72px;
-            border-radius: 12px;
-            border: 1px solid rgba(187, 255, 0, 0.3);
-            object-fit: cover;
-            background-color: var(--bg-obsidian);
-            flex-shrink: 0;
-        }
-
+        .game-icon { width: 72px; height: 72px; border-radius: 12px; border: 1px solid rgba(187, 255, 0, 0.3); object-fit: cover; background-color: var(--bg-obsidian); flex-shrink: 0; }
         .game-meta h3 { font-size: 1.2rem; color: var(--text-high); margin-bottom: 0.25rem; line-height: 1.3;}
         .game-meta p { font-size: 0.8rem; color: var(--text-low); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem; }
-        
-        .game-badge {
-            display: inline-block; padding: 2px 8px;
-            background-color: rgba(187, 255, 0, 0.1); color: var(--acid-green);
-            border-radius: 4px; font-size: 0.75rem; font-weight: 600;
-        }
-
+        .game-badge { display: inline-block; padding: 2px 8px; background-color: rgba(187, 255, 0, 0.1); color: var(--acid-green); border-radius: 4px; font-size: 0.75rem; font-weight: 600; }
         .game-description { font-size: 0.95rem; color: var(--text-mid); margin-bottom: 1.5rem; }
-
         .game-card .btn { width: 100%; padding: 0.8rem; font-size: 0.85rem; border-color: rgba(187, 255, 0, 0.4);}
 
         /* --- FOOTER SECTION --- */
-        footer {
-            margin-top: auto;
-            padding: 4rem 0 2rem;
-            border-top: 1px solid rgba(187, 255, 0, 0.05);
-            background-color: var(--bg-charcoal);
-            font-size: 0.9rem;
-            color: var(--text-low);
-        }
+        footer { margin-top: auto; padding: 4rem 0 2rem; border-top: 1px solid rgba(187, 255, 0, 0.05); background-color: var(--bg-charcoal); font-size: 0.9rem; color: var(--text-low); }
         footer .container { display: flex; flex-direction: column; align-items: center; gap: 2rem;}
-
-        .footer-logo {
-            font-family: var(--font-head);
-            color: var(--acid-green-dim);
-            font-weight: 700; font-size: 1.5rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.5rem;
-        }
-
+        .footer-logo { font-family: var(--font-head); color: var(--acid-green-dim); font-weight: 700; font-size: 1.5rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.5rem; }
         .footer-links { display: flex; gap: 2rem; list-style: none; }
         .footer-links a { color: var(--text-mid); font-weight: 600; text-transform: uppercase;}
         .footer-links a:hover { color: var(--acid-green); }
-
         .copyright { font-size: 0.8rem; margin-top: 1rem; text-align: center;}
 
-        /* --- MOBILE RESPONSIVENESS --- */
         @media (max-width: 768px) {
             .hero { padding: 120px 0 60px; }
             .hero h1 { font-size: 2rem; letter-spacing: -1px;}
@@ -217,7 +193,13 @@
 </head>
 <body>
 
-    <!-- --- NAVIGATION --- -->
+    <!-- PRELOADER ANIMATION OVERLAY -->
+    <div class="loader-wrapper">
+        <div class="loader-logo">Tantrum<span>Games</span></div>
+        <div class="loader-bar"></div>
+    </div>
+
+    <!-- NAVIGATION -->
     <header>
         <div class="container">
             <nav>
@@ -230,26 +212,26 @@
         </div>
     </header>
 
-    <!-- --- HERO SECTION --- -->
+    <!-- HERO SECTION -->
     <section class="hero">
         <div class="container">
-            <div class="game-badge">GOOGLE PLAY DEVELOPER</div>
-            <h1>UNLEASH THE <span>Tantrum</span></h1>
-            <p>Creating vibrant, high-energy gaming experiences for the Google Play Store.</p>
-            <a href="#games" class="btn">Explore Games</a>
+            <div class="game-badge reveal hero-badge">GOOGLE PLAY DEVELOPER</div>
+            <h1 class="reveal hero-h1">UNLEASH THE <span>Tantrum</span></h1>
+            <p class="reveal hero-p">Creating vibrant, high-energy gaming experiences for the Google Play Store.</p>
+            <a href="#games" class="btn reveal hero-btn">Explore Games</a>
         </div>
     </section>
 
-    <!-- --- GAMES SECTION --- -->
+    <!-- GAMES SECTION -->
     <section class="games" id="games">
         <div class="container">
-            <h2>Current Releases</h2>
-            <p class="games-subtitle">Active experiences on Google Play.</p>
+            <h2 class="reveal">Current Releases</h2>
+            <p class="games-subtitle reveal">Active experiences on Google Play.</p>
             
             <div class="games-grid">
                 
-                <!-- GAME 1: Car Drift Racing -->
-                <div class="game-card">
+                <!-- GAME 1 -->
+                <div class="game-card reveal">
                     <div class="game-top">
                         <img src="cardrift-icon.png" alt="Car Drift Racing Icon" class="game-icon">
                         <div class="game-meta">
@@ -262,8 +244,8 @@
                     <a href="https://play.google.com/store/apps/details?id=com.tantrumgames.car.games.drift.race" class="btn" target="_blank">Google Play</a>
                 </div>
 
-                <!-- GAME 2: ATV Quad Bike 3D Racing Games -->
-                <div class="game-card">
+                <!-- GAME 2 -->
+                <div class="game-card reveal">
                     <div class="game-top">
                         <img src="quadbike-icon.png" alt="ATV Quad Bike Icon" class="game-icon">
                         <div class="game-meta">
@@ -276,8 +258,8 @@
                     <a href="https://play.google.com/store/apps/details?id=com.TantrumGamesStudio.QuadbikeShooter" class="btn" target="_blank">Google Play</a>
                 </div>
 
-                <!-- GAME 3: MX Bikes: Moto 3D Dirt Racing -->
-                <div class="game-card">
+                <!-- GAME 3 -->
+                <div class="game-card reveal">
                     <div class="game-top">
                         <img src="mxmoto-icon.png" alt="MX Bikes Icon" class="game-icon">
                         <div class="game-meta">
@@ -290,8 +272,8 @@
                     <a href="https://play.google.com/store/apps/details?id=com.TantrumGamesStudio.BikeMud" class="btn" target="_blank">Google Play</a>
                 </div>
 
-                <!-- GAME 4: Fish Evolution: Merge Game -->
-                <div class="game-card">
+                <!-- GAME 4 -->
+                <div class="game-card reveal">
                     <div class="game-top">
                         <img src="fishmerge-icon.png" alt="Fish Evolution Icon" class="game-icon">
                         <div class="game-meta">
@@ -308,7 +290,7 @@
         </div>
     </section>
 
-    <!-- --- FOOTER --- -->
+    <!-- FOOTER -->
     <footer>
         <div class="container">
             <div style="text-align: center;">
@@ -324,6 +306,16 @@
             <div class="copyright">&copy; <script>document.write(new Date().getFullYear())</script> Tantrum Games Studio. All rights reserved.</div>
         </div>
     </footer>
+
+    <!-- ANIMATION TRIGGER SCRIPT -->
+    <script>
+        // Wait for the HTML and images to load, then trigger the reveal animation
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.body.classList.add('loaded');
+            }, 1200); // 1.2 second delay lets the neon loader finish its animation
+        });
+    </script>
 
 </body>
 </html>
