@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Update the Title to match your brand -->
+    <title>Tantrum Games HQ | Electric Experiences</title>
+    
+    <!-- Link to Google Fonts for professional typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CORE VARIABLES --- */
+        :root {
+            /* Acid Green Palette */
+            --acid-green: #BBFF00;
+            --acid-green-dim: #99CC00;
+            --acid-green-glow: rgba(187, 255, 0, 0.4);
+            
+            /* Dark Backgrounds */
+            --bg-void: #000000;
+            --bg-obsidian: #050608;
+            --bg-charcoal: #121419;
+            
+            /* Text Colors */
+            --text-high: #FFFFFF;
+            --text-mid: #A0A9B5;
+            --text-low: #606875;
+            
+            /* Spacing & Borders */
+            --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+            --border-radius-main: 16px;
+            --font-main: 'Chakra Petch', sans-serif;
+            --font-head: 'Syncopate', sans-serif; /* For headers only */
+        }
+
+        /* --- GLOBAL RESET & STYLES --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            background-color: var(--bg-obsidian);
+            color: var(--text-mid);
+            font-family: var(--font-main);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        a { text-decoration: none; color: inherit; transition: color 0.3s var(--ease-out); }
+        a:hover { color: var(--acid-green); }
+
+        /* --- LAYOUT UTILITIES --- */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* --- HEADER / NAVIGATION --- */
+        header {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            background-color: rgba(5, 6, 8, 0.95);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(187, 255, 0, 0.1);
+            padding: 1rem 0;
+        }
+
+        nav { display: flex; justify-content: space-between; align-items: center; }
+
+        .logo {
+            font-family: var(--font-head);
+            color: var(--acid-green);
+            font-weight: 700;
+            font-size: 1.25rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .logo span { font-weight: 400; color: var(--text-high); font-size: 1rem;}
+
+        .nav-links { display: flex; gap: 2rem; list-style: none; font-size: 0.9rem; font-weight: 600; text-transform: uppercase;}
+
+        /* --- HERO SECTION --- */
+        .hero {
+            padding: 160px 0 80px; /* Offset for fixed header */
+            text-align: center;
+            background: radial-gradient(circle at 50% 30%, rgba(187, 255, 0, 0.06) 0%, rgba(0,0,0,0) 60%);
+        }
+
+        .hero h1 {
+            font-family: var(--font-head);
+            font-size: 3rem;
+            color: var(--text-high);
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            margin-bottom: 1rem;
+            line-height: 1;
+        }
+        .hero h1 span {
+            color: var(--acid-green);
+            display: block;
+        }
+        .hero p {
+            max-width: 600px; margin: 0 auto 3rem;
+            font-size: 1.1rem; color: var(--text-mid); font-weight: 300;
+        }
+
+        /* --- MAIN BUTTON STYLE --- */
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center;
+            background-color: var(--bg-charcoal);
+            color: var(--acid-green);
+            padding: 1rem 2.5rem;
+            border: 1px solid var(--acid-green);
+            border-radius: 4px; /* More angular/tech feel */
+            font-weight: 700; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 1px;
+            transition: all 0.3s var(--ease-out);
+            position: relative; overflow: hidden;
+        }
+        .btn:hover {
+            color: var(--bg-obsidian);
+            box-shadow: 0 0 20px var(--acid-green-glow);
+            transform: translateY(-2px);
+        }
+        .btn:before {
+            content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0;
+            background-color: var(--acid-green); transform: translate(-50%, -50%) rotate(45deg);
+            z-index: -1; transition: all 0.4s var(--ease-out);
+        }
+        .btn:hover:before { width: 300%; height: 300%; }
+
+        /* --- GAMES SECTION --- */
+        .games { padding: 80px 0; }
+        .games h2 {
+            font-family: var(--font-head); font-size: 2rem; color: var(--text-high);
+            text-transform: uppercase; margin-bottom: 1rem; text-align: center;
+        }
+        .games-subtitle { text-align: center; color: var(--text-mid); margin-bottom: 4rem;}
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Modern Game Card Style */
+        .game-card {
+            background-color: var(--bg-charcoal);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: var(--border-radius-main);
+            padding: 1.5rem;
+            transition: all 0.3s var(--ease-out);
+            display: flex; flex-direction: column; justify-content: space-between;
+        }
+        .game-card:hover {
+            border-color: var(--acid-green);
+            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.5);
+            transform: translateY(-5px);
+        }
+
+        .game-top { display: flex; align-items: start; gap: 1rem; margin-bottom: 1.5rem; }
+
+        /* Placeholder for Game Icon - looks better in dev */
+        .game-icon-placeholder {
+            width: 72px; height: 72px;
+            background-color: var(--bg-obsidian);
+            border-radius: 12px;
+            border: 1px solid rgba(187, 255, 0, 0.2);
+            color: var(--acid-green-dim);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem; font-family: var(--font-head); font-weight: 700;
+        }
+
+        .game-meta h3 { font-size: 1.25rem; color: var(--text-high); margin-bottom: 0.25rem; }
+        .game-meta p { font-size: 0.8rem; color: var(--text-low); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem; }
+        
+        .game-badge {
+            display: inline-block; padding: 2px 8px;
+            background-color: rgba(187, 255, 0, 0.1); color: var(--acid-green);
+            border-radius: 4px; font-size: 0.75rem; font-weight: 600;
+        }
+
+        .game-description { font-size: 0.95rem; color: var(--text-mid); margin-bottom: 1.5rem; }
+
+        .game-card .btn { width: 100%; padding: 0.8rem; font-size: 0.85rem; border-color: rgba(187, 255, 0, 0.4);}
+
+        /* --- FOOTER SECTION --- */
+        footer {
+            margin-top: auto;
+            padding: 4rem 0 2rem;
+            border-top: 1px solid rgba(187, 255, 0, 0.05);
+            background-color: var(--bg-charcoal);
+            font-size: 0.9rem;
+            color: var(--text-low);
+        }
+        footer .container { display: flex; flex-direction: column; align-items: center; gap: 2rem;}
+
+        .footer-logo {
+            font-family: var(--font-head);
+            color: var(--acid-green-dim);
+            font-weight: 700; font-size: 1.5rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.5rem;
+        }
+
+        .footer-links { display: flex; gap: 2rem; list-style: none; }
+        .footer-links a { color: var(--text-mid); font-weight: 600; text-transform: uppercase;}
+        .footer-links a:hover { color: var(--acid-green); }
+
+        .social-icons { display: flex; gap: 1.5rem; font-size: 1.2rem;}
+
+        .copyright { font-size: 0.8rem; margin-top: 1rem; text-align: center;}
+
+        /* --- MOBILE RESPONSIVENESS --- */
+        @media (max-width: 768px) {
+            .hero { padding: 120px 0 60px; }
+            .hero h1 { font-size: 2rem; letter-spacing: -1px;}
+            .hero p { font-size: 1rem; }
+            .nav-links { display: none; } /* Simplified for now */
+            .games-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- --- NAVIGATION --- -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">Tantrum<span>Games</span></div>
+                <ul class="nav-links">
+                    <li><a href="#games">Games</a></li>
+                    <li><a href="privacy.html">Privacy</a></li>
+                    <li><a href="app-ads.txt">app-ads.txt</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- --- HERO SECTION --- -->
+    <section class="hero">
+        <div class="container">
+            <div class="game-badge">GOOGLE PLAY DEVELOPER</div>
+            <h1>UNLEASH THE <span>Tantrum</span></h1>
+            <p>Creating vibrant, high-energy gaming experiences for the Google Play Store.</p>
+            <a href="#games" class="btn">Explore Games</a>
+        </div>
+    </section>
+
+    <!-- --- GAMES SECTION --- -->
+    <section class="games" id="games">
+        <div class="container">
+            <h2>Current Release</h2>
+            <p class="games-subtitle">Active experiences on Google Play.</p>
+            
+            <div class="games-grid">
+                
+                <!-- --- GAME CARD 1: Drift Racing --- -->
+                <div class="game-card">
+                    <div class="game-top">
+                        <!-- DEV TIP: Replace this placeholder <div> with an <img> of your game icon later -->
+                        <div class="game-icon-placeholder">CD</div>
+                        <div class="game-meta">
+                            <h3>Car Drift Racing 3D</h3>
+                            <p>Highway Chase</p>
+                            <span class="game-badge">LIVE NOW</span>
+                        </div>
+                    </div>
+                    <p class="game-description">High-speed police pursuits meet precision drifting action in this electric highway racing simulator.</p>
+                    
+                    <!-- !!! IMPORTANT: UPDATE THIS LINK TO YOUR PLAY STORE URL !!! -->
+                    <a href="https://play.google.com/store/apps/details?id=YOUR_DRIFT_GAME_PACKAGE_NAME" class="btn" target="_blank">Google Play</a>
+                </div>
+
+                <!-- --- NEW GAME CARD TEMPLATE (Uncomment to add a second game) --- -->
+                <!--
+                <div class="game-card">
+                    <div class="game-top">
+                        <div class="game-icon-placeholder">G2</div>
+                        <div class="game-meta">
+                            <h3>Next Game Title</h3>
+                            <p>Adventure / Strategy</p>
+                            <span class="game-badge">COMING SOON</span>
+                        </div>
+                    </div>
+                    <p class="game-description">Brief and engaging description of your next planned release or ongoing project.</p>
+                    <a href="#" class="btn" target="_blank">Store Link</a>
+                </div>
+                -->
+
+            </div>
+        </div>
+    </section>
+
+    <!-- --- FOOTER --- -->
+    <footer>
+        <div class="container">
+            <div style="text-align: center;">
+                <div class="footer-logo">Tantrum</div>
+                <div class="copyright">Independent Game Development</div>
+            </div>
+            
+            <ul class="footer-links">
+                <li><a href="#games">Games</a></li>
+                <li><a href="privacy.html">Privacy</a></li>
+                <li><a href="app-ads.txt">app-ads.txt</a></li>
+            </ul>
+
+            <div class="social-icons">
+                <!-- Add your social links here (e.g., using icons/text) -->
+                <!-- Example: <a href="your_twitter_url">X</a> -->
+            </div>
+
+            <div class="copyright">&copy; <script>document.write(new Date().getFullYear())</script> Tantrum Games Studio.</div>
+        </div>
+    </footer>
+
+</body>
+</html>
