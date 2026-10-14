@@ -1,481 +1,410 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy | Tantrum Games HQ</title>
-
+    <title>Privacy Policy | Tantrum Games Studio</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-
-    <style>
-        /* ===================================================
-           TOKENS & SYSTEM DESIGN
-        =================================================== */
-        :root {
-            --void:        #07070a;
-            --panel:       #101218;
-            --panel-2:     #161923;
-            --panel-edge:  rgba(255,255,255,0.07);
-
-            --acid:        #C6FF3D;
-            --acid-dim:    #9FDB1F;
-            --acid-glow:   rgba(198, 255, 61, 0.35);
-
-            --riot:        #FF3E7F;
-            --riot-glow:   rgba(255, 62, 127, 0.35);
-
-            --volt:        #FFD23D;
-
-            --text-high:   #F6F8FA;
-            --text-mid:    #99A2AF;
-            --text-low:    #565E6B;
-
-            --ease-punch:  cubic-bezier(0.16, 1, 0.3, 1);
-            --ease-out:    cubic-bezier(0.23, 1, 0.32, 1);
-            --ease-back:   cubic-bezier(0.34, 1.56, 0.64, 1);
-
-            --radius:      14px;
-            --font-display:'Anton', sans-serif;
-            --font-body:   'Space Grotesk', sans-serif;
-            --font-mono:   'Space Mono', monospace;
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
-
-        body {
-            background-color: var(--void);
-            color: var(--text-mid);
-            font-family: var(--font-body);
-            line-height: 1.7;
-            -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        /* Film grain, ambient overlay */
-        body::before {
-            content: '';
-            position: fixed; inset: 0; z-index: 2; pointer-events: none;
-            opacity: 0.035; mix-blend-mode: overlay;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-        }
-        /* Soft vignette */
-        body::after {
-            content: '';
-            position: fixed; inset: 0; z-index: 1; pointer-events: none;
-            background: radial-gradient(ellipse at center, transparent 45%, rgba(0,0,0,0.55) 100%);
-        }
-
-        a { text-decoration: none; color: inherit; transition: color 0.3s var(--ease-out); }
-        ::selection { background: var(--riot); color: var(--void); }
-        :focus-visible { outline: 2px solid var(--acid); outline-offset: 3px; }
-
-        /* REVEAL SYSTEM */
-        .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s var(--ease-punch), transform 0.7s var(--ease-punch); }
-        .reveal.is-visible { opacity: 1; transform: translateY(0); }
-
-        /* LAYOUT */
-        .container { width: 90%; max-width: 900px; margin: 0 auto; padding: 0 1rem; position: relative; z-index: 3; }
-
-        /* CURSOR AURA */
-        .cursor-aura {
-            position: fixed; top: 0; left: 0;
-            width: 380px; height: 380px;
-            margin: -190px 0 0 -190px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(198,255,61,0.14) 0%, rgba(255,62,127,0.07) 45%, transparent 70%);
-            pointer-events: none;
-            z-index: 4;
-            mix-blend-mode: screen;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            will-change: transform;
-        }
-        .cursor-aura.active { opacity: 1; }
-
-        /* HEADER & NAV */
-        header {
-            position: fixed; top: 0; left: 0; width: 100%;
-            background-color: rgba(7, 7, 10, 0.82);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            border-bottom: 1px solid var(--panel-edge);
-            padding: 1.1rem 0;
-        }
-        nav { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-family: var(--font-display); color: var(--text-high); font-size: 1.15rem; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 6px; }
-        .logo span { color: var(--acid); }
-        .nav-links { display: flex; gap: 2.25rem; list-style: none; font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
-        .nav-links a { position: relative; padding-bottom: 4px; }
-        .nav-links a::after { content: ''; position: absolute; left: 0; bottom: 0; width: 0; height: 2px; background: var(--riot); transition: width 0.3s var(--ease-out); }
-        .nav-links a:hover { color: var(--text-high); }
-        .nav-links a:hover::after { width: 100%; }
-
-        /* PAGE HERO */
-        .page-hero { padding: 160px 0 40px; text-align: center; position: relative; }
-        
-        .hero-glow {
-            position: absolute; top: 0; left: 50%;
-            width: 700px; height: 700px; transform: translateX(-50%);
-            background: radial-gradient(circle, var(--acid-glow) 0%, rgba(255,62,127,0.05) 40%, transparent 70%);
-            filter: blur(20px);
-            pointer-events: none; z-index: 0;
-        }
-
-        .stamp {
-            display: inline-flex; align-items: center; gap: 0.5rem;
-            font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 1.5px; text-transform: uppercase;
-            color: var(--acid);
-            border: 1px dashed rgba(198, 255, 61, 0.5);
-            border-radius: 100px; padding: 0.45rem 1rem;
-            transform: rotate(-1.5deg); margin-bottom: 1.5rem;
-        }
-
-        .page-hero h1 {
-            font-family: var(--font-display); font-size: clamp(2.4rem, 6vw, 4.2rem);
-            color: var(--text-high); text-transform: uppercase; letter-spacing: 0.5px; line-height: 1;
-            margin-bottom: 1rem; position: relative; z-index: 2;
-        }
-        
-        .scrawl-wrap { position: relative; display: inline-block; }
-        .scrawl-wrap .fill { color: var(--acid); position: relative; z-index: 1; }
-        .scrawl-wrap svg { position: absolute; left: -4%; right: -4%; bottom: -0.14em; width: 108%; height: 0.5em; overflow: visible; }
-        .scrawl-wrap svg path { fill: none; stroke: var(--riot); stroke-width: 10; stroke-linecap: round; stroke-dasharray: 900; stroke-dashoffset: 0; }
-
-        .effective-date {
-            font-family: var(--font-mono);
-            font-size: 0.8rem;
-            letter-spacing: 1.5px;
-            color: var(--riot);
-            text-transform: uppercase;
-        }
-
-        /* POLICY CONTENT CONTAINER */
-        .content-section { padding: 40px 0 90px; }
-        
-        .policy-card {
-            background: linear-gradient(180deg, var(--panel-2), var(--panel));
-            border: 1px solid var(--panel-edge);
-            border-radius: var(--radius);
-            padding: 3rem;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
-            position: relative;
-            z-index: 3;
-        }
-
-        .policy-card h2 {
-            font-family: var(--font-display);
-            font-size: 1.6rem;
-            color: var(--text-high);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-        }
-        .policy-card h2:first-of-type { margin-top: 1rem; }
-
-        .policy-card h2::before {
-            content: '//';
-            font-family: var(--font-mono);
-            color: var(--acid);
-            font-size: 1.2rem;
-        }
-
-        .policy-card p {
-            color: var(--text-mid);
-            margin-bottom: 1.25rem;
-            font-size: 0.98rem;
-        }
-
-        .policy-card strong {
-            color: var(--text-high);
-        }
-
-        .policy-card ul {
-            list-style: none;
-            margin-bottom: 1.5rem;
-            padding-left: 0.5rem;
-        }
-
-        .policy-card li {
-            position: relative;
-            padding-left: 1.5rem;
-            margin-bottom: 0.85rem;
-            color: var(--text-mid);
-            font-size: 0.95rem;
-        }
-
-        .policy-card li::before {
-            content: '>';
-            position: absolute;
-            left: 0;
-            top: 0;
-            font-family: var(--font-mono);
-            color: var(--acid);
-            font-weight: 700;
-        }
-
-        .policy-card li strong {
-            color: var(--acid);
-        }
-
-        .policy-card a {
-            color: var(--acid);
-            font-weight: 600;
-            border-bottom: 1px dashed var(--acid);
-            padding-bottom: 1px;
-        }
-        .policy-card a:hover {
-            color: var(--riot);
-            border-bottom-color: var(--riot);
-        }
-
-        code {
-            background-color: var(--void);
-            color: var(--acid);
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-family: var(--font-mono);
-            font-size: 0.85em;
-            border: 1px solid var(--panel-edge);
-        }
-
-        /* CONTACT BOX */
-        .contact-box {
-            background-color: var(--void);
-            border: 1px solid var(--panel-edge);
-            border-left: 4px solid var(--acid);
-            padding: 1.5rem;
-            margin-top: 1.5rem;
-            margin-bottom: 2rem;
-            border-radius: 6px;
-            width: 100%;
-        }
-        .contact-box p { margin-bottom: 0.4rem; }
-        .contact-box p:last-child { margin-bottom: 0; }
-        
-        /* Mobile text wrapping for contact links */
-        .contact-box a {
-            overflow-wrap: anywhere;
-            word-break: break-word;
-            display: inline-block;
-        }
-
-        /* BUTTONS */
-        .btn {
-            display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
-            background-color: transparent; color: var(--text-high);
-            padding: 0.9rem 2rem; border: 1.5px solid var(--acid); border-radius: 6px;
-            font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;
-            transition: color 0.35s var(--ease-out), transform 0.25s var(--ease-punch), box-shadow 0.35s var(--ease-out);
-            position: relative; z-index: 1; overflow: hidden; margin-top: 1.5rem;
-        }
-        .btn::before {
-            content: ''; position: absolute; inset: 0; background: var(--acid);
-            transform: translateX(-101%); transition: transform 0.35s var(--ease-punch); z-index: -1;
-        }
-        .btn:hover { color: var(--void); box-shadow: 0 6px 24px -6px var(--acid-glow); }
-        .btn:hover::before { transform: translateX(0); }
-        .btn:active { transform: scale(0.97) !important; }
-
-        /* FOOTER */
-        footer { margin-top: 20px; padding: 4rem 0 2.5rem; border-top: 1px solid var(--panel-edge); background-color: var(--panel); font-size: 0.9rem; color: var(--text-low); position: relative; }
-        footer .container { display: flex; flex-direction: column; align-items: center; gap: 1.75rem; text-align: center; }
-        .footer-logo { font-family: var(--font-display); color: var(--text-high); font-size: 1.4rem; text-transform: uppercase; letter-spacing: 1px; }
-        .footer-logo span { color: var(--acid); }
-        .footer-links { display: flex; gap: 2rem; list-style: none; }
-        .footer-links a { color: var(--text-mid); font-weight: 700; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.5px; }
-        .footer-links a:hover { color: var(--riot); }
-        .copyright { font-size: 0.78rem; }
-
-        @media (max-width: 768px) {
-            .page-hero { padding: 120px 0 30px; }
-            .nav-links { display: none; }
-            .policy-card { padding: 1.75rem 1.25rem; }
-            .cursor-aura { display: none; }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.001ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.001ms !important;
-                scroll-behavior: auto !important;
-            }
-        }
-    </style>
-</head>
-<body>
-
-    <!-- Ambient Cursor Aura -->
-    <div class="cursor-aura" id="cursorAura"></div>
-
-    <!-- NAVIGATION -->
-    <header>
-        <div class="container">
-            <nav>
-                <a href="index.html" class="logo">Tantrum<span>Games</span></a>
-                <ul class="nav-links">
-                    <li><a href="index.html#games">Games</a></li>
-                    <li><a href="privacy.html">Privacy</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-
-    <!-- HERO -->
-    <section class="page-hero">
-        <div class="hero-glow"></div>
-        <div class="container">
-            <div class="stamp reveal"><span class="dot"></span> Legal Document</div>
-            <h1 class="reveal">
-                Privacy
-                <span class="scrawl-wrap">
-                    <span class="fill">Policy</span>
-                    <svg viewBox="0 0 300 40" preserveAspectRatio="none" aria-hidden="true">
-                        <path d="M4,26 C60,10 90,34 150,20 C200,8 240,30 296,14"></path>
-                    </svg>
-                </span>
-            </h1>
-            <div class="effective-date reveal">Effective Date: October 5, 2026</div>
-        </div>
-    </section>
-
-    <!-- CONTENT -->
-    <section class="content-section">
-        <div class="container">
-            <div class="policy-card reveal">
-
-                <p><strong>Tantrum Games Studio</strong> ("we," "us," or "our") operates mobile and PC applications and games (the "Service"). This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you play our games.</p>
-
-                <p>By using our Service, you agree to the collection and use of information in accordance with this policy. If you do not agree with the terms of this privacy policy, please do not access the application.</p>
-
-                <h2>1. Information We Collect</h2>
-                <p>We do not collect or store directly identifiable personal information (such as your real name, email address, or phone number) unless you explicitly provide it to us. However, our games automatically utilize third-party services that collect device-specific data to function properly.</p>
-
-                <p><strong>Automatically Collected Data (Via Third-Party SDKs):</strong></p>
-                <ul>
-                    <li><strong>Identifiers:</strong> Device IP addresses, Android Advertising ID (GAID), and unique mobile installation identifiers.</li>
-                    <li><strong>Usage Data:</strong> Game performance metrics, crash logs, multiplayer match connection states, leaderboard scores, and advertising interaction data (such as ad impressions, clicks, and session and monetization events).</li>
-                </ul>
-
-                <h2>2. How Your Data Is Used</h2>
-                <p>We use the information collected to:</p>
-                <ul>
-                    <li>Facilitate real-time, peer-to-peer, and client-server multiplayer networking.</li>
-                    <li>Maintain and display global, in-game competitive leaderboards.</li>
-                    <li>Serve, optimize, measure, and personalize in-game advertisements.</li>
-                    <li>Monitor game stability, fix bugs, and prevent exploit behavior.</li>
-                </ul>
-
-                <h2>3. Third-Party Service Providers</h2>
-                <p>To deliver our game experiences, we partner with reliable third-party networks. These services process your data independently under their own privacy frameworks. You can review their policies at the links below:</p>
-                <ul>
-                    <li>
-                        <strong>Photon Fusion 2 (Exit Games):</strong> Handles real-time multiplayer networking synchronization and room matchmaking.<br>
-                        <a href="https://www.photonengine.com/en-US/Privacy" target="_blank" rel="noopener">Exit Games Privacy Policy</a>
-                    </li>
-                    <li style="margin-top: 0.75rem;">
-                        <strong>Google AdMob:</strong> Serves non-personalized or personalized banner, interstitial, and rewarded video advertisements.<br>
-                        <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy & Terms</a>
-                    </li>
-                    <li style="margin-top: 0.75rem;">
-                        <strong>Unity Ads (Unity Technologies):</strong> Serves and measures banner, interstitial, and rewarded video advertisements, and may use an advertising identifier and similar technologies to personalize ads where permitted. You can opt out of certain personalized ads by tapping the Data Privacy icon shown within a Unity ad.<br>
-                        <a href="https://unity.com/legal/game-player-and-app-user-privacy-policy" target="_blank" rel="noopener">Unity Game Player and App User Privacy Policy</a><br>
-                        <a href="https://unity.com/legal/game-player-and-app-user-privacy-faq" target="_blank" rel="noopener">Unity Game Player and App User Privacy FAQ</a>
-                    </li>
-                    <li style="margin-top: 0.75rem;">
-                        <strong>Firebase (Google Cloud):</strong> Handles real-time server database storage for in-game leaderboards, high scores, and app quality diagnostics.<br>
-                        <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">Firebase Privacy & Security Terms</a>
-                    </li>
-                </ul>
-
-                <h2>4. Cookies and Device Identifiers</h2>
-                <p>Our third-party advertising partners (including Google AdMob and Unity Ads) use mobile device identifiers (such as the Android Advertising ID) to track ad delivery performance and prevent fraud. You can reset or opt out of these tracking identifiers at any time via your Android device's system settings under <code>Settings > Google > Ads</code>.</p>
-
-                <h2>5. Children's Privacy</h2>
-                <p>Our games are not intentionally directed toward children under the age of 13. We do not knowingly collect personally identifiable information from children under 13. If we discover that a child under 13 has provided us with personal data, we will immediately delete it from our systems. If you are a parent or guardian and become aware that your child has provided data, please contact us.</p>
-
-                <h2>6. International Data Transfers</h2>
-                <p>Your information, including data processed by Firebase, Photon, Google AdMob, and Unity, may be transferred to—and maintained on—computers located outside of your state, province, or country, where data protection laws may differ.</p>
-
-                <h2>7. Changes to This Privacy Policy</h2>
-                <p>We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Effective Date" at the top. You are advised to review this Privacy Policy periodically for any changes.</p>
-
-                <h2>8. Contact Us</h2>
-                <p>If you have any questions or concerns regarding this Privacy Policy, please contact us at:</p>
-
-                <div class="contact-box">
-                    <p style="font-weight: 700; color: var(--text-high);">Tantrum Games Studio</p>
-                    <p>Email: <a href="mailto:tantrumgamesstudio40@gmail.com">tantrumgamesstudio40@gmail.com</a></p>
-                    <p>Website: <a href="https://TantrumGamesHQ.github.io/">https://TantrumGamesHQ.github.io/</a></p>
-                </div>
-
-                <a href="index.html" class="btn">&larr; Return to Tantrum Homepage</a>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer>
-        <div class="container">
-            <div class="footer-logo">Tantrum<span>Games</span></div>
-            <ul class="footer-links">
-                <li><a href="index.html#games">Games</a></li>
-                <li><a href="privacy.html">Privacy Policy</a></li>
-            </ul>
-            <div class="copyright">&copy; <span id="year"></span> Tantrum Games Studio. All rights reserved.</div>
-        </div>
-    </footer>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <script>
-        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        const pointerFine = window.matchMedia('(pointer: fine)').matches;
-
-        // Dynamic Copyright Year
-        document.getElementById('year').textContent = new Date().getFullYear();
-
-        // Scroll Reveal
-        const revealEls = document.querySelectorAll('.reveal');
-        const io = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                    io.unobserve(entry.target);
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Montserrat', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        tantrum: {
+                            crimson: '#800B16',
+                            crimsonLight: '#A81322',
+                            orange: '#C84B20',
+                            orangeLight: '#E86335',
+                            dark: '#090A0F',
+                            card: '#12141D',
+                            border: '#232736'
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
                 }
-            });
-        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-        revealEls.forEach(el => io.observe(el));
-
-        // Ambient Cursor Aura
-        if (pointerFine && !reduceMotion) {
-            const aura = document.getElementById('cursorAura');
-            let ax = window.innerWidth / 2, ay = window.innerHeight / 2;
-            let tx = ax, ty = ay;
-            let shown = false;
-            window.addEventListener('mousemove', (e) => {
-                tx = e.clientX; ty = e.clientY;
-                if (!shown) { aura.classList.add('active'); shown = true; }
-            });
-            function loop() {
-                ax += (tx - ax) * 0.12;
-                ay += (ty - ay) * 0.12;
-                aura.style.transform = `translate(${ax}px, ${ay}px)`;
-                requestAnimationFrame(loop);
             }
-            loop();
-        } else {
-            document.getElementById('cursorAura').style.display = 'none';
         }
     </script>
 
+    <style>
+        /* Custom Scrollbar & Futuristic Studio Aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #090A0F;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #232736;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #C84B20;
+        }
+
+        .bg-grid-pattern {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(200, 75, 32, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(128, 11, 22, 0.05) 1px, transparent 1px);
+        }
+
+        .tantrum-gradient-text {
+            background: linear-gradient(135deg, #FF7A4D 0%, #C84B20 45%, #D91E36 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .tantrum-btn-gradient {
+            background: linear-gradient(135deg, #800B16 0%, #C84B20 100%);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .tantrum-btn-gradient:hover {
+            background: linear-gradient(135deg, #9b0e1c 0%, #e05626 100%);
+            box-shadow: 0 10px 25px -5px rgba(200, 75, 32, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .game-card {
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .game-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px -15px rgba(200, 75, 32, 0.22), 0 0 25px -5px rgba(128, 11, 22, 0.3);
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        .skeleton-shimmer {
+            background: linear-gradient(90deg, rgba(255,255,255,0.03) 25%, rgba(200,75,32,0.12) 50%, rgba(255,255,255,0.03) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.8s infinite;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-tantrum-dark text-slate-900 dark:text-slate-100 font-sans min-h-screen flex flex-col selection:bg-tantrum-orange selection:text-white overflow-x-hidden transition-colors duration-300">
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
+        <div class="absolute -top-40 -left-40 w-96 h-96 bg-tantrum-crimson/20 dark:bg-tantrum-crimson/25 rounded-full blur-[128px]"></div>
+        <div class="absolute top-1/3 -right-40 w-96 h-96 bg-tantrum-orange/15 dark:bg-tantrum-orange/20 rounded-full blur-[140px]"></div>
+        <div class="absolute inset-0 bg-grid-pattern opacity-70"></div>
+    </div>
+    <header class="sticky top-0 z-40 backdrop-blur-xl bg-white/85 dark:bg-tantrum-dark/85 border-b border-slate-200 dark:border-tantrum-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="index.html#home" class="flex items-center gap-3.5 group">
+                <span class="w-12 h-12 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-tantrum-border p-1.5 flex items-center justify-center shadow-md" aria-hidden="true">
+                    <svg viewBox="0 0 200 145" class="w-9 h-9" fill="none" xmlns="http://www.w3.org/2000/svg"><polygon points="103,10 75,78 88,108 128,85" fill="#800B16"/><polygon points="22,38 72,78 89,130 45,122" fill="#C84B20"/><polygon points="90,112 96,129 148,121 190,46" fill="#C84B20"/></svg>
+                </span>
+                <span class="flex flex-col"><span class="font-display font-extrabold text-xl tracking-[0.22em] text-white leading-none">TANTRUM</span><span class="font-display font-semibold text-[10px] tracking-[0.3em] text-tantrum-orange mt-1 leading-none">GAMES STUDIO</span></span>
+            </a>
+            <nav class="flex items-center gap-3 sm:gap-6 text-xs sm:text-sm">
+                <a href="index.html#games-section" class="text-slate-600 dark:text-slate-300 hover:text-tantrum-orange">Our Games</a>
+                <a href="index.html#about-section" class="text-slate-600 dark:text-slate-300 hover:text-tantrum-orange">Studio</a>
+                <a href="privacy.html" aria-current="page" class="text-tantrum-orange font-semibold">Privacy Policy</a>
+            </nav>
+        </div>
+    </header>
+    <main id="view-privacy" class="relative z-10 flex-grow py-12 md:py-20">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Top Navigation Breadcrumb & Copy Link Bar -->
+            <div class="flex flex-wrap items-center justify-between gap-4 mb-8">
+                <a href="index.html" class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-tantrum-orange transition-colors">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Back to Tantrum Games Studio</span>
+                </a>
+
+                <div class="flex items-center gap-2">
+                    <button onclick="window.print()" class="px-4 py-2 rounded-xl text-xs font-semibold bg-white dark:bg-tantrum-card border border-slate-200 dark:border-tantrum-border hover:border-tantrum-orange text-slate-700 dark:text-slate-200 flex items-center gap-2 shadow-sm transition-all">
+                        <i class="fa-solid fa-print text-slate-400"></i>
+                        <span>Print</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Main Policy Document Card -->
+            <div class="rounded-3xl bg-white dark:bg-tantrum-card border border-slate-200 dark:border-tantrum-border shadow-2xl overflow-hidden">
+                
+                <!-- Policy Banner Header -->
+                <div class="p-8 sm:p-10 bg-gradient-to-r from-tantrum-crimson via-[#9B1824] to-tantrum-orange text-white relative overflow-hidden">
+                    <div class="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+                        <div>
+                            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/25 text-white/90 text-xs font-mono mb-3">
+                                <i class="fa-solid fa-shield-check"></i> Official Legal Documentation
+                            </div>
+                            <h1 class="font-display font-black text-3xl sm:text-4xl tracking-tight">
+                                PRIVACY POLICY
+                            </h1>
+                            <p class="text-white/85 text-sm mt-1">
+                                Tantrum Games Studio — Mobile & PC Applications and Games
+                            </p>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 text-xs space-y-1 flex-shrink-0">
+                            <div class="text-white/70 uppercase tracking-wider font-mono">Effective Date</div>
+                            <div class="font-bold text-sm">October 14, 2026</div>
+                            <div class="text-white/80 pt-1">Tantrum Games Studio</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Policy Body Content (Exact Text Provided by User + Official Links) -->
+                <div class="p-8 sm:p-12 space-y-8 text-slate-700 dark:text-slate-300 leading-relaxed text-sm sm:text-base">
+                    
+                    <!-- Intro Statement -->
+                    <div class="p-6 rounded-2xl bg-slate-50 dark:bg-tantrum-dark/60 border border-slate-200/80 dark:border-tantrum-border space-y-4">
+                        <p>
+                            <strong class="text-slate-900 dark:text-white">Tantrum Games Studio</strong> ("we," "us," or "our") operates mobile and PC applications and games (the "Service"). This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you play our games.
+                        </p>
+                        <p class="font-medium text-slate-900 dark:text-white">
+                            By using our Service, you agree to the collection and use of information in accordance with this policy. If you do not agree with the terms of this privacy policy, please do not access the application.
+                        </p>
+                    </div>
+
+                    <!-- Section 1 -->
+                    <div class="space-y-3">
+                        <h2 class="font-display font-bold text-xl text-slate-900 dark:text-white flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-lg bg-tantrum-orange/15 text-tantrum-orange font-mono text-sm flex items-center justify-center">1</span>
+                            Information We Collect
+                        </h2>
+                        <p>
+                            We do not collect or store directly identifiable personal information (such as your real name, email address, or phone number) unless you explicitly provide it to us. However, our games automatically utilize third-party services that collect device-specific data to function properly.
+                        </p>
+                        <div class="pt-2">
+                            <h3 class="font-semibold text-slate-900 dark:text-white mb-2">
+                                Automatically Collected Data (Via Third-Party SDKs):
+                            </h3>
+                            <ul class="space-y-2.5 pl-1">
+                                <li class="flex items-start gap-3">
+                                    <i class="fa-solid fa-microchip text-tantrum-orange mt-1.5 text-xs"></i>
+                                    <span><strong class="text-slate-900 dark:text-white">Identifiers:</strong> Device IP addresses, Android Advertising ID (GAID), and unique mobile installation identifiers.</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fa-solid fa-chart-line text-tantrum-orange mt-1.5 text-xs"></i>
+                                    <span><strong class="text-slate-900 dark:text-white">Usage Data:</strong> Game performance metrics, crash logs, multiplayer match connection states, leaderboard scores, and advertising interaction data (such as ad impressions, clicks, and session and monetization events).</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <hr class="border-slate-200 dark:border-tantrum-border">
+
+                    <!-- Section 2 -->
+                    <div class="space-y-3">
+                        <h2 class="font-display font-bold text-xl text-slate-900 dark:text-white flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-lg bg-tantrum-orange/15 text-tantrum-orange font-mono text-sm flex items-center justify-center">2</span>
+                            How Your Data Is Used
+                        </h2>
+                        <p>We use the information collected to:</p>
+                        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                            <li class="p-3.5 rounded-xl bg-slate-50 dark:bg-tantrum-dark/50 border border-slate-200/70 dark:border-tantrum-border flex items-start gap-3 text-sm">
+                                <i class="fa-solid fa-globe text-tantrum-orange mt-1"></i>
+                                <span>Facilitate real-time, peer-to-peer, and client-server multiplayer networking.</span>
+                            </li>
+                            <li class="p-3.5 rounded-xl bg-slate-50 dark:bg-tantrum-dark/50 border border-slate-200/70 dark:border-tantrum-border flex items-start gap-3 text-sm">
+                                <i class="fa-solid fa-ranking-star text-tantrum-orange mt-1"></i>
+                                <span>Maintain and display global, in-game competitive leaderboards.</span>
+                            </li>
+                            <li class="p-3.5 rounded-xl bg-slate-50 dark:bg-tantrum-dark/50 border border-slate-200/70 dark:border-tantrum-border flex items-start gap-3 text-sm">
+                                <i class="fa-solid fa-rectangle-ad text-tantrum-orange mt-1"></i>
+                                <span>Serve, optimize, measure, and personalize in-game advertisements.</span>
+                            </li>
+                            <li class="p-3.5 rounded-xl bg-slate-50 dark:bg-tantrum-dark/50 border border-slate-200/70 dark:border-tantrum-border flex items-start gap-3 text-sm">
+                                <i class="fa-solid fa-bug-slash text-tantrum-orange mt-1"></i>
+                                <span>Monitor game stability, fix bugs, and prevent exploit behavior.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <hr class="border-slate-200 dark:border-tantrum-border">
+
+                    <!-- Section 3 -->
+                    <div class="space-y-4">
+                        <h2 class="font-display font-bold text-xl text-slate-900 dark:text-white flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-lg bg-tantrum-orange/15 text-tantrum-orange font-mono text-sm flex items-center justify-center">3</span>
+                            Third-Party Service Providers
+                        </h2>
+                        <p>
+                            To deliver our game experiences, we partner with reliable third-party networks. These services process your data independently under their own privacy frameworks. You can review their policies at the links below:
+                        </p>
+
+                        <div class="grid grid-cols-1 gap-4 pt-2">
+                            <!-- Photon Fusion 2 -->
+                            <div class="p-5 rounded-2xl bg-slate-50 dark:bg-tantrum-dark/70 border border-slate-200 dark:border-tantrum-border">
+                                <div class="font-bold text-slate-900 dark:text-white mb-1">
+                                    Photon Fusion 2 (Exit Games)
+                                </div>
+                                <p class="text-sm text-slate-600 dark:text-slate-400 mb-3">
+                                    Handles real-time multiplayer networking synchronization and room matchmaking.
+                                </p>
+                                <a href="https://www.photonengine.com/terms/privacyandcookiepolicy" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-xs font-semibold text-tantrum-orange hover:underline">
+                                    <i class="fa-solid fa-arrow-up-right-from-square"></i> Exit Games Privacy Policy
+                                </a>
+                            </div>
+
+                            <!-- Google AdMob -->
+                            <div class="p-5 rounded-2xl bg-slate-50 dark:bg-tantrum-dark/70 border border-slate-200 dark:border-tantrum-border">
+                                <div class="font-bold text-slate-900 dark:text-white mb-1">
+                                    Google AdMob
+                                </div>
+                                <p class="text-sm text-slate-600 dark:text-slate-400 mb-3">
+                                    Serves non-personalized or personalized banner, interstitial, and rewarded video advertisements.
+                                </p>
+                                <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-xs font-semibold text-tantrum-orange hover:underline">
+                                    <i class="fa-solid fa-arrow-up-right-from-square"></i> Google Privacy & Terms
+                                </a>
+                            </div>
+
+                            <!-- Unity Ads -->
+                            <div class="p-5 rounded-2xl bg-slate-50 dark:bg-tantrum-dark/70 border border-slate-200 dark:border-tantrum-border">
+                                <div class="font-bold text-slate-900 dark:text-white mb-1">
+                                    Unity Ads (Unity Technologies)
+                                </div>
+                                <p class="text-sm text-slate-600 dark:text-slate-400 mb-3">
+                                    Serves and measures banner, interstitial, and rewarded video advertisements, and may use an advertising identifier and similar technologies to personalize ads where permitted. You can opt out of certain personalized ads by tapping the Data Privacy icon shown within a Unity ad.
+                                </p>
+                                <div class="flex flex-wrap gap-4">
+                                    <a href="https://unity.com/legal/game-player-and-app-user-privacy-policy" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-xs font-semibold text-tantrum-orange hover:underline">
+                                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Unity Game Player and App User Privacy Policy
+                                    </a>
+                                    <a href="https://unity.com/legal/game-player-and-app-user-privacy-faq" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-xs font-semibold text-tantrum-orange hover:underline">
+                                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Unity Game Player and App User Privacy FAQ
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Firebase -->
+                            <div class="p-5 rounded-2xl bg-slate-50 dark:bg-tantrum-dark/70 border border-slate-200 dark:border-tantrum-border">
+                                <div class="font-bold text-slate-900 dark:text-white mb-1">
+                                    Firebase (Google Cloud)
+                                </div>
+                                <p class="text-sm text-slate-600 dark:text-slate-400 mb-3">
+                                    Handles real-time server database storage for in-game leaderboards, high scores, and app quality diagnostics.
+                                </p>
+                                <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-xs font-semibold text-tantrum-orange hover:underline">
+                                    <i class="fa-solid fa-arrow-up-right-from-square"></i> Firebase Privacy & Security Terms
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="border-slate-200 dark:border-tantrum-border">
+
+                    <!-- Section 4 -->
+                    <div class="space-y-3">
+                        <h2 class="font-display font-bold text-xl text-slate-900 dark:text-white flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-lg bg-tantrum-orange/15 text-tantrum-orange font-mono text-sm flex items-center justify-center">4</span>
+                            Cookies and Device Identifiers
+                        </h2>
+                        <p>
+                            Our third-party advertising partners (including Google AdMob and Unity Ads) use mobile device identifiers (such as the Android Advertising ID) to track ad delivery performance and prevent fraud. You can reset or opt out of these tracking identifiers at any time via your Android device's system settings under <code class="px-2 py-0.5 rounded bg-slate-100 dark:bg-tantrum-dark font-mono text-xs text-tantrum-orange">Settings &gt; Google &gt; Ads</code>.
+                        </p>
+                    </div>
+
+                    <hr class="border-slate-200 dark:border-tantrum-border">
+
+                    <!-- Section 5 -->
+                    <div class="space-y-3">
+                        <h2 class="font-display font-bold text-xl text-slate-900 dark:text-white flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-lg bg-tantrum-orange/15 text-tantrum-orange font-mono text-sm flex items-center justify-center">5</span>
+                            Children's Privacy
+                        </h2>
+                        <p>
+                            Our games are not intentionally directed toward children under the age of 13. We do not knowingly collect personally identifiable information from children under 13. If we discover that a child under 13 has provided us with personal data, we will immediately delete it from our systems. If you are a parent or guardian and become aware that your child has provided data, please contact us.
+                        </p>
+                    </div>
+
+                    <hr class="border-slate-200 dark:border-tantrum-border">
+
+                    <!-- Section 6 -->
+                    <div class="space-y-3">
+                        <h2 class="font-display font-bold text-xl text-slate-900 dark:text-white flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-lg bg-tantrum-orange/15 text-tantrum-orange font-mono text-sm flex items-center justify-center">6</span>
+                            International Data Transfers
+                        </h2>
+                        <p>
+                            Your information, including data processed by Firebase, Photon, Google AdMob, and Unity, may be transferred to—and maintained on—computers located outside of your state, province, or country, where data protection laws may differ.
+                        </p>
+                    </div>
+
+                    <hr class="border-slate-200 dark:border-tantrum-border">
+
+                    <!-- Section 7 -->
+                    <div class="space-y-3">
+                        <h2 class="font-display font-bold text-xl text-slate-900 dark:text-white flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-lg bg-tantrum-orange/15 text-tantrum-orange font-mono text-sm flex items-center justify-center">7</span>
+                            Changes to This Privacy Policy
+                        </h2>
+                        <p>
+                            We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Effective Date" at the top. You are advised to review this Privacy Policy periodically for any changes.
+                        </p>
+                    </div>
+
+                    <hr class="border-slate-200 dark:border-tantrum-border">
+
+                    <!-- Section 8: Contact Us -->
+                    <div class="space-y-4">
+                        <h2 class="font-display font-bold text-xl text-slate-900 dark:text-white flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-lg bg-tantrum-orange/15 text-tantrum-orange font-mono text-sm flex items-center justify-center">8</span>
+                            Contact Us
+                        </h2>
+                        <p>
+                            If you have any questions or concerns regarding this Privacy Policy, please contact us at:
+                        </p>
+                        <div class="p-6 rounded-2xl bg-gradient-to-br from-tantrum-crimson/10 to-tantrum-orange/10 border border-tantrum-orange/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                            <div>
+                                <div class="font-display font-bold text-lg text-slate-900 dark:text-white">
+                                    Tantrum Games Studio
+                                </div>
+                                <div class="text-sm text-slate-600 dark:text-slate-300 mt-1 flex items-center gap-2">
+                                    <i class="fa-solid fa-envelope text-tantrum-orange"></i>
+                                    <span>Email:</span>
+                                    <a href="mailto:tantrumgamesstudio40@gmail.com" class="font-mono font-semibold text-tantrum-orange hover:underline">
+                                        tantrumgamesstudio40@gmail.com
+                                    </a>
+                                </div>
+                            </div>
+                            <a href="mailto:tantrumgamesstudio40@gmail.com" class="px-5 py-3 rounded-xl text-xs font-bold uppercase tracking-wider text-white tantrum-btn-gradient shadow-md text-center">
+                                Send Email
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </main>
+    <footer class="relative z-10 bg-white dark:bg-[#06070B] border-t border-slate-200 dark:border-tantrum-border mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-7 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500 dark:text-slate-400">
+            <span>&copy; <span id="current-year"></span> Tantrum Games Studio. All rights reserved.</span>
+            <a href="index.html" class="hover:text-tantrum-orange underline">Back to Tantrum Games Studio</a>
+        </div>
+    </footer>
+    <script>document.getElementById("current-year").textContent = new Date().getFullYear();</script>
 </body>
 </html>
